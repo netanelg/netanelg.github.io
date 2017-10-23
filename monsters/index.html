@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Netanel's Playground</title>
+	<style>
+		html, body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		.monster {
+			position: absolute;
+			transition: transform .5s ease-out;
+		}
+
+		.monster.spin {
+			transform: rotate(360deg);
+		}
+	</style>
+	<script>
+		(function () {
+			var monsters = [];
+			var freq = 1000;
+			var interval;
+
+			document.onkeydown = function (e) {
+				var charCode = e.which;
+				
+				if (String.fromCharCode(charCode) === 'M') {
+					var img = document.createElement('img');
+					var num = Math.ceil(Math.random() * 5);
+					var scale = Math.ceil(Math.random() * 3);
+					var size = 37 * scale;
+					var offset = size / 2;
+					img.className = 'monster';
+					img.style.width = size + 'px';
+					img.style.height = size + 'px';
+					img.src = 'images/monster' + num + '.png';
+					img.style.top = 'calc(' + Math.round(Math.random() * 100) + '% - ' + offset + 'px)';
+					img.style.left = 'calc(' + Math.round(Math.random() * 100) + '% - ' + offset + 'px)';
+					document.body.appendChild(img);
+					monsters.push(img);
+					spinMonster();
+				}
+			}
+
+			function spinMonster () {
+				if (!monsters.length) return;
+
+				clearInterval(interval);
+
+				interval = setInterval(function () {
+					monsters[Math.floor(Math.random() * monsters.length)].classList.toggle('spin');
+				}, freq / Math.min(monsters.length, 10));
+			}
+		})();
+	</script>
+</head>
+<body>
+</body>
+</html>
