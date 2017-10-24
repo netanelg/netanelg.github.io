@@ -21,40 +21,40 @@
 	</style>
 	<script>
 		(function () {
-			var monsters = [];
-			var freq = 1000;
-			var interval;
+			var monsters = [],
+				freq = 1000,
+				interval,
+				spinMonster = function () {
+					if (!monsters.length) return;
 
-			document.onkeydown = function (e) {
-				var charCode = e.which;
-				
-				if (String.fromCharCode(charCode) === 'M') {
-					var img = document.createElement('img');
-					var num = Math.ceil(Math.random() * 5);
-					var scale = Math.ceil(Math.random() * 3);
-					var size = 37 * scale;
-					var offset = size / 2;
-					img.className = 'monster';
-					img.style.width = size + 'px';
-					img.style.height = size + 'px';
-					img.src = 'images/monster' + num + '.png';
-					img.style.top = 'calc(' + Math.round(Math.random() * 100) + '% - ' + offset + 'px)';
-					img.style.left = 'calc(' + Math.round(Math.random() * 100) + '% - ' + offset + 'px)';
-					document.body.appendChild(img);
-					monsters.push(img);
-					spinMonster();
-				}
-			}
+					clearInterval(interval);
+	
+					interval = setInterval(function () {
+						monsters[Math.floor(Math.random() * monsters.length)].classList.toggle('spin');
+					}, freq / Math.min(monsters.length, 10));
+				},
+				onkeydown = function (e) {
+					var charCode = e.which;
+					
+					if (String.fromCharCode(charCode) === 'M') {
+						var img = document.createElement('img');
+						var num = Math.ceil(Math.random() * 5);
+						var scale = Math.ceil(Math.random() * 3);
+						var size = 37 * scale;
+						var offset = size / 2;
+						img.className = 'monster';
+						img.style.width = size + 'px';
+						img.style.height = size + 'px';
+						img.src = 'images/monster' + num + '.png';
+						img.style.top = 'calc(' + Math.round(Math.random() * 100) + '% - ' + offset + 'px)';
+						img.style.left = 'calc(' + Math.round(Math.random() * 100) + '% - ' + offset + 'px)';
+						document.body.appendChild(img);
+						monsters.push(img);
+						spinMonster();
+					}
+				};
 
-			function spinMonster () {
-				if (!monsters.length) return;
-
-				clearInterval(interval);
-
-				interval = setInterval(function () {
-					monsters[Math.floor(Math.random() * monsters.length)].classList.toggle('spin');
-				}, freq / Math.min(monsters.length, 10));
-			}
+			document.onkeydown = spinMonster;				
 		})();
 	</script>
 </head>
